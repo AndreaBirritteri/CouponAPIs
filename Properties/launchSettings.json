@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MagicVilla_CouponAPI": {
+    "CouponAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -2,17 +2,16 @@
 using CouponAPI.Models;
 using CouponAPI.Models.DTO;
 
-namespace CouponAPI
+namespace CouponAPI;
+
+public class MappingConfig : Profile
 {
-    public class MappingConfig : Profile
+    public MappingConfig()
     {
-        public MappingConfig()
-        {
-            CreateMap<Coupon, CouponCreateDTO>().ReverseMap();
-            CreateMap<Coupon, CouponUpdateDTO>().ReverseMap();
-            CreateMap<Coupon, CouponDTO>().ReverseMap();
-            CreateMap<LocalUser, UserDTO>().ReverseMap();
-            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
-        }
+        CreateMap<Coupon, CouponCreateDTO>().ReverseMap();
+        CreateMap<Coupon, CouponUpdateDTO>().ReverseMap();
+        CreateMap<Coupon, CouponDTO>().ReverseMap();
+        CreateMap<LocalUser, UserDTO>().ReverseMap();
+        CreateMap<ApplicationUser, UserDTO>().ReverseMap();
     }
 }

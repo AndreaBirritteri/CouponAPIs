@@ -1,33 +1,31 @@
-﻿using FluentValidation;
-using System.Net;
+﻿using System.Net;
 using CouponAPI.Models;
+using FluentValidation;
 
-namespace CouponAPI.Filters
+namespace CouponAPI.Filters;
+
+public class BasicValidator<T> : IRouteHandlerFilter where T : class
 {
-    public class BasicValidator<T> : IRouteHandlerFilter where T : class
+    private readonly IValidator<T> _validator;
+
+    public BasicValidator(IValidator<T> validator)
     {
-        private IValidator<T> _validator;
-        public BasicValidator(IValidator<T> validator)
+        _validator = validator;
+    }
+
+    public async ValueTask<object> InvokeAsync(RouteHandlerInvocationContext context, RouteHandlerFilterDelegate next)
+    {
+        APIResponse response = new() { IsSuccess = false, StatusCode = HttpStatusCode.BadRequest };
+        var contextObj = context.Arguments.SingleOrDefault(x => x?.GetType() == typeof(T));
+
+        if (contextObj == null) return Results.BadRequest(response);
+        var result = await _validator.ValidateAsync((T)contextObj);
+        if (!result.IsValid)
         {
-            _validator = validator;
+            response.ErrorMessages.Add(result.Errors.FirstOrDefault().ToString());
+            return Results.BadRequest(response);
         }
 
-        public async ValueTask<object> InvokeAsync(RouteHandlerInvocationContext context, RouteHandlerFilterDelegate next)
-        {
-            APIResponse response = new() { IsSuccess = false, StatusCode = HttpStatusCode.BadRequest };
-            var contextObj = context.Arguments.SingleOrDefault(x => x?.GetType() == typeof(T));
-
-            if (contextObj == null)
-            {
-                return Results.BadRequest(response);
-            }
-            var result = await _validator.ValidateAsync((T)contextObj);
-            if (!result.IsValid)
-            {
-                response.ErrorMessages.Add(result.Errors.FirstOrDefault().ToString());
-                return Results.BadRequest(response);
-            }
-            return await next(context);
-        }
+        return await next(context);
     }
 }

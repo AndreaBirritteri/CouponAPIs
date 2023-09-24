@@ -1,9 +1,8 @@
-﻿namespace CouponAPI.Models.DTO
+﻿namespace CouponAPI.Models.DTO;
+
+public class RegisterationRequestDTO
 {
-    public class RegisterationRequestDTO
-    {
-        public string UserName { get; set; }
-        public string Name { get; set; }
-        public string Password { get; set; }
-    }
+    public string UserName { get; set; }
+    public string Name { get; set; }
+    public string Password { get; set; }
 }

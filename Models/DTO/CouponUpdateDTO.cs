@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace CouponAPI.Models.DTO;
 
-namespace CouponAPI.Models.DTO
+public class CouponUpdateDTO
 {
-    public class CouponUpdateDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Percent { get; set; }
-        public bool IsActive { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Percent { get; set; }
+    public bool IsActive { get; set; }
 }
